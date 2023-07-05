@@ -190,7 +190,7 @@ export const ChatInput = ({
 
   const parseVariables = (content: string) => {
     const regex = /{{(.*?)}}/g;
-    const foundVariables = [];
+    const foundVariables: any[] = [];
     let match;
 
     while ((match = regex.exec(content)) !== null) {
