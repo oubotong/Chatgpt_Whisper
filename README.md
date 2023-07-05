@@ -1,21 +1,19 @@
-# Chatbot UI
+# Chatbot+Whisper
 
-Chatbot UI is an open source chat UI for AI models.
+This repo is originally from the repo [chatbot-ui](https://github.com/mckaywrigley/chatbot-ui) but with Whisper integration.
 
-See a [demo](https://twitter.com/mckaywrigley/status/1640380021423603713?s=46&t=AowqkodyK6B4JccSOxSPew).
+You can use the same `OPENAI_API_KEY` to automatically turn your voice into queries for Chatgpt.
 
 ![Chatbot UI](./public/screenshots/screenshot-0402023.jpg)
 
 ## Updates
 
-Chatbot UI will be updated over time.
+The repo will keep updated with the original Chatbot-UI repo (I'm not good at designing frontend tbh).
 
-Expect frequent improvements.
-
-**Next up:**
-
-- [ ] Sharing
-- [ ] "Bots"
+Other updates:
+- [ ] Transcribing system audio (such as voice made by other people in a meeting)
+- [ ] Langchain (such as answering questions according to a pdf)
+- [ ] TBD
 
 ## Deploy
 
@@ -25,19 +23,11 @@ Host your own live version of Chatbot UI with Vercel.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmckaywrigley%2Fchatbot-ui)
 
-**Docker**
-
-Build locally:
+**Docker Build**
 
 ```shell
-docker build -t chatgpt-ui .
-docker run -e OPENAI_API_KEY=xxxxxxxx -p 3000:3000 chatgpt-ui
-```
-
-Pull from ghcr:
-
-```
-docker run -e OPENAI_API_KEY=xxxxxxxx -p 3000:3000 ghcr.io/mckaywrigley/chatbot-ui:main
+docker build -t Chatgpt_Whisper
+docker run -e OPENAI_API_KEY=xxxxxxxx -p 3000:3000 Chatgpt_Whisper
 ```
 
 ## Running Locally
@@ -45,21 +35,22 @@ docker run -e OPENAI_API_KEY=xxxxxxxx -p 3000:3000 ghcr.io/mckaywrigley/chatbot-
 **1. Clone Repo**
 
 ```bash
-git clone https://github.com/mckaywrigley/chatbot-ui.git
+git clone https://github.com/oubotong/Chatgpt_Whisper.git
 ```
 
 **2. Install Dependencies**
 
+Make sure you are using `node --version <= v16.20.1 `. Otherwise, you will suffer from `OPEN AI: Can not parse multipart form` error (Took me a whole night).
 ```bash
 npm i
 ```
 
 **3. Provide OpenAI API Key**
 
-Create a .env.local file in the root of the repo with your OpenAI API Key:
+Overwrite `.env` file in the root of the repo with your OpenAI API Key:
 
 ```bash
-OPENAI_API_KEY=YOUR_KEY
+OPENAI_API_KEY=YOUR_OPENAI_KEY
 ```
 
 > You can set `OPENAI_API_HOST` where access to the official OpenAI host is restricted or unavailable, allowing users to configure an alternative host for their specific needs.
@@ -68,13 +59,19 @@ OPENAI_API_KEY=YOUR_KEY
 
 **4. Run App**
 
+By default, it will be `localhost:3000`
 ```bash
 npm run dev
 ```
 
 **5. Use It**
 
-You should be able to start chatting.
+You should be able to start chatting ( using your voice :kissing: ).
+
+To be specific:
+  1. Click :headphones: to get microphone permission
+  2. Click :small_red_triangle_down: to start speaking
+  3. Click :white_circle: to stop speaking. It will automatically send the transcribed text to chatgpt.
 
 ## Configuration
 
@@ -97,6 +94,13 @@ When deploying the application, the following environment variables can be set:
 If you do not provide an OpenAI API key with `OPENAI_API_KEY`, users will have to provide their own key.
 
 If you don't have an OpenAI API key, you can get one [here](https://platform.openai.com/account/api-keys).
+
+If you want to switch languages:
+
+  1. For display languages: change `defaultLocale:` in file `next-i18next.config.js`
+
+  2. For voice transcribing language: `formData.append('language', 'en');` in file `whisper.ts`
+
 
 ## Contact
 
